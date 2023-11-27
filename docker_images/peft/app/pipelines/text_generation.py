@@ -24,9 +24,12 @@ class TextGenerationPipeline(Pipeline):
             if base_model_id:
                 self.tokenizer = AutoTokenizer.from_pretrained(base_model_id)
                 logger.debug("loaded tokenizer")
-                model = AutoModelForCausalLM.from_pretrained(
-                    base_model_id, device_map="auto"
-                )
+                try:
+                    model = AutoModelForCausalLM.from_pretrained(
+                        base_model_id, device_map="auto"
+                    )
+                except Exception as e:
+                    logger.error(e)
                 logger.debug("loaded model")
                 # wrap base model with peft
                 self.model = PeftModel.from_pretrained(model, model_id)
