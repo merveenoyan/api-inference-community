@@ -26,7 +26,7 @@ class TextGenerationPipeline(Pipeline):
                 logger.debug("loaded tokenizer")
                 try:
                     model = AutoModelForCausalLM.from_pretrained(
-                        base_model_id, device_map="auto"
+                        base_model_id, device_map="auto", offload_folder="offload"
                     )
                 except Exception as e:
                     logger.error(e)
