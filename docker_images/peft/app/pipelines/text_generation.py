@@ -27,6 +27,7 @@ class TextGenerationPipeline(Pipeline):
                 model = AutoModelForCausalLM.from_pretrained(
                     base_model_id, device_map="auto"
                 )
+                logger.debug("loaded model")
                 # wrap base model with peft
                 self.model = PeftModel.from_pretrained(model, model_id)
                 logger.debug("model started")
