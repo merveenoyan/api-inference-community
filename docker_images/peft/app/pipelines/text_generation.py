@@ -71,12 +71,12 @@ class TextGenerationPipeline(Pipeline):
                 "attention_mask": tokenized_inputs["attention_mask"].to(device),
             }
         with torch.no_grad():
-            breakpoint()
             outputs = self.model.generate(
                 input_ids=tokenized_inputs["input_ids"],
                 attention_mask=tokenized_inputs["attention_mask"],
                 max_new_tokens=10,
                 eos_token_id=3,
             )
+            print("outputs")
 
         return self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
