@@ -77,6 +77,6 @@ class TextGenerationPipeline(Pipeline):
                 max_new_tokens=10,
                 eos_token_id=3,
             )
-            print("outputs")
+            logger.debug(outputs)
 
         return self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
