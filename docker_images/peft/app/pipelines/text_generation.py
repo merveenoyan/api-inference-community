@@ -17,11 +17,13 @@ class TextGenerationPipeline(Pipeline):
         use_auth_token = os.getenv("HF_API_TOKEN")
         model_data = model_info(model_id, token=use_auth_token)
         config_dict = model_data.config.get("peft")
-
+        logger.debug("got config")
         if config_dict:
             base_model_id = config_dict["base_model_name"]
+            logger.debug(f"base_model_id is {base_model_id}")
             if base_model_id:
                 self.tokenizer = AutoTokenizer.from_pretrained(base_model_id)
+                logger.debug("loaded tokenizer")
                 model = AutoModelForCausalLM.from_pretrained(
                     base_model_id, device_map="auto"
                 )
