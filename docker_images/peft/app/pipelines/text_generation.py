@@ -27,6 +27,7 @@ class TextGenerationPipeline(Pipeline):
                 )
                 # wrap base model with peft
                 self.model = PeftModel.from_pretrained(model, model_id)
+                logger.info("model started")
             else:
                 raise ValueError("There's no base model ID in configuration file.")
         else:
@@ -62,9 +63,11 @@ class TextGenerationPipeline(Pipeline):
             A string of completed text.
         """
         tokenized_inputs = self.tokenizer(inputs, return_tensors="pt")
+        logger.info(f"tokenized inputs {tokenized_inputs}")
         self._model_to_gpu()
 
         if torch.cuda.is_available():
+            logger.info("Model on cuda")
             device = "cuda"
             tokenized_inputs = {
                 "input_ids": tokenized_inputs["input_ids"].to(device),
